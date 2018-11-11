@@ -1,0 +1,13 @@
+version: '3'
+services:
+  sql:
+    image: microsoft/mssql-server-linux:2017-latest
+    ports: 
+      - 1436:1433
+    environment:
+      - 'ACCEPT_EULA=Y'
+      - 'SA_PASSWORD=mys@passw0rd'
+    healthcheck:
+      interval: 2s
+      retries: 10
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'mys@passw0rd' -Q 'SELECT 1'
