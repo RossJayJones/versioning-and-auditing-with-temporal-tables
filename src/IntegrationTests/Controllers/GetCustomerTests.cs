@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Host.Controllers.CreateVersion.Models;
 using Host.Controllers.GetCustomer.Results;
 using IntegrationTests.Fixtures;
 using Xunit;
@@ -27,7 +26,6 @@ namespace IntegrationTests.Controllers
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-
 
         public class WhenAuditIdProvided : IClassFixture<TestServerFixture>
         {
