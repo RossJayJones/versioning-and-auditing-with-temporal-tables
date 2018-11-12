@@ -3,17 +3,16 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public class CustomerAudit
+    public class Audit
     {
         private List<string> _messages;
 
-        internal CustomerAudit()
+        internal Audit()
         {
             _messages = new List<string>();
-            Timestamp = DateTimeOffset.Now;
         }
 
-        public DateTimeOffset Timestamp { get; private set; }
+        public DateTime Timestamp { get; private set; }
 
         public IReadOnlyCollection<string> Messages => _messages;
 

@@ -14,5 +14,7 @@ namespace Host.Infrastructure.Query.Dtos
         public string Name { get; set; }
 
         public IReadOnlyCollection<AddressDto> Addresses { get; set; }
+
+        public IReadOnlyCollection<CustomerAuditDto> Audits { get; set; }
     }
 }

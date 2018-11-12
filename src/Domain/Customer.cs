@@ -5,22 +5,23 @@ namespace Domain
 {
     public class Customer
     {
-        private CustomerAudit _currentAudit;
+        private Audit _currentAudit;
 
         private readonly List<Address> _addresses;
-        private readonly List<CustomerAudit> _audits;
-        private readonly List<CustomerVersion> _versions;
+        private readonly List<Audit> _audits;
+        private readonly List<Version> _versions;
 
         internal Customer()
         {
             _addresses = new List<Address>();
-            _audits = new List<CustomerAudit>();
-            _versions = new List<CustomerVersion>();
+            _audits = new List<Audit>();
+            _versions = new List<Version>();
         }
 
         public Customer(string name) : this()
         {
             Name = name;
+            OnChanged("Customer created");
         }
 
         public int Id { get; private set; }
@@ -29,9 +30,9 @@ namespace Domain
 
         public IReadOnlyCollection<Address> Addresses => _addresses;
 
-        public IReadOnlyCollection<CustomerAudit> Audits => _audits;
+        public IReadOnlyCollection<Audit> Audits => _audits;
 
-        public IReadOnlyCollection<CustomerVersion> Versions => _versions;
+        public IReadOnlyCollection<Version> Versions => _versions;
         
         public void Update(string name)
         {
@@ -77,7 +78,7 @@ namespace Domain
 
         public void IncrementVersion(string message)
         {
-            var version = new CustomerVersion(
+            var version = new Version(
                 message: message);
             _versions.Add(version);
         }
@@ -86,7 +87,7 @@ namespace Domain
         {
             if (_currentAudit == null)
             {
-                _currentAudit = new CustomerAudit();
+                _currentAudit = new Audit();
                 _audits.Add(_currentAudit);
             }
 

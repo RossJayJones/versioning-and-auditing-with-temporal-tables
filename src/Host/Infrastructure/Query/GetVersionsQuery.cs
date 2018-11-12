@@ -7,11 +7,11 @@ using Host.Infrastructure.Query.Dtos;
 
 namespace Host.Infrastructure.Query
 {
-    public class GetCustomerVersionsQuery
+    public class GetVersionsQuery
     {
         private readonly IDbConnection _connection;
 
-        public GetCustomerVersionsQuery(IDbConnection connection)
+        public GetVersionsQuery(IDbConnection connection)
         {
             _connection = connection;
         }
@@ -28,7 +28,7 @@ namespace Host.Infrastructure.Query
                 [Timestamp],
                 [Message]
             FROM
-                [CustomerVersion]
+                [Version]
             WHERE
                 [CustomerId] = @CustomerId
         ";

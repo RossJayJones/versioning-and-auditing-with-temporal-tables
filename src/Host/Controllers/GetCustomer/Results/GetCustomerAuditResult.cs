@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Host.Infrastructure.Query.Dtos
+namespace Host.Controllers.GetCustomer.Results
 {
-    public class CustomerAuditDto
+    public class GetCustomerAuditResult
     {
         public int Id { get; set; }
 
         public DateTime Timestamp { get; set; }
 
-        public IReadOnlyCollection<string> Messages { get; set; }
+        public ICollection<string> Messages { get; set; }
     }
 }

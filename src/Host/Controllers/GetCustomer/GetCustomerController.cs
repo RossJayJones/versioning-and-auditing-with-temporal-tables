@@ -11,46 +11,34 @@ namespace Host.Controllers.GetCustomer
     [Route("api")]
     public class GetCustomerController : ControllerBase
     {
-        private readonly GetCustomerByAuditIdQuery _getCustomerByAuditId;
-        private readonly GetCustomerByVersionIdQuery _getCustomerByVersionId;
+        private readonly GetCustomerByIdQuery _query;
 
-        public GetCustomerController(GetCustomerByAuditIdQuery getCustomerByAuditId,
-            GetCustomerByVersionIdQuery getCustomerByVersionId)
+        public GetCustomerController(GetCustomerByIdQuery query)
         {
-            _getCustomerByAuditId = getCustomerByAuditId;
-            _getCustomerByVersionId = getCustomerByVersionId;
+            _query = query;
         }
 
-        [Route("customers/{customerId}/audits/{auditId}")]
+        [Route("customers/{customerId}")]
         [HttpGet]
-        public async Task<IActionResult> ByAuditId(int customerId, int auditId)
+        public async Task<IActionResult> ByAuditId(int customerId, int? auditId)
         {
-            var dto = await _getCustomerByAuditId.Execute(customerId, auditId);
-            var results = CreateGetCustomerResult(dto);
+            var dto = await _query.Execute(customerId, auditId);
+            var results = CreateCustomerResult(dto);
             return Ok(results);
         }
 
-        [Route("customers/{customerId}/versions/{versionId}")]
-        [HttpGet]
-        public async Task<IActionResult> ByVersionId(int customerId, int versionId)
-        {
-            var dto = await _getCustomerByVersionId.Execute(customerId, versionId);
-            var results = CreateGetCustomerResult(dto);
-            return Ok(results);
-        }
-
-        private GetCustomerResult CreateGetCustomerResult(CustomerDto dto)
+        private static GetCustomerResult CreateCustomerResult(CustomerDto dto)
         {
             var result = new GetCustomerResult
             {
-                Id = dto.Id,
                 Name = dto.Name,
-                Addresses = dto.Addresses.Select(CreateGetCustomerAddressResult).ToList(),
+                Addresses = dto.Addresses.Select(CreateAddressResult).ToList(),
+                Audits = dto.Audits.Select(CreateAuditResult).ToList()
             };
             return result;
         }
 
-        private GetCustomerAddressResult CreateGetCustomerAddressResult(AddressDto dto)
+        private static GetCustomerAddressResult CreateAddressResult(AddressDto dto)
         {
             var result = new GetCustomerAddressResult
             {
@@ -60,6 +48,17 @@ namespace Host.Controllers.GetCustomer
                 Line = dto.Line,
                 Province = dto.Province,
                 Suburb = dto.Suburb
+            };
+            return result;
+        }
+
+        private static GetCustomerAuditResult CreateAuditResult(CustomerAuditDto dto)
+        {
+            var result = new GetCustomerAuditResult
+            {
+                Id = dto.Id,
+                Messages = dto.Messages.ToList(),
+                Timestamp = dto.Timestamp
             };
             return result;
         }

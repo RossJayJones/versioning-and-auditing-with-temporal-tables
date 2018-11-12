@@ -14,8 +14,8 @@ namespace Host.Infrastructure.Domain
         {
             modelBuilder.ApplyConfiguration(new CustomerTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AddressTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new CustomerAuditTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new CustomerVersionTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AuditTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new VersionTypeConfiguration());
         }
     }
 }

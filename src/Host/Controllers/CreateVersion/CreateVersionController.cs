@@ -1,31 +1,31 @@
 ﻿using System.Threading.Tasks;
 using Domain;
 using Host.Controllers.CreateAddress.Results;
-using Host.Controllers.UpdateCustomer.Models;
+using Host.Controllers.CreateVersion.Models;
 using Host.Infrastructure.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Host.Controllers.UpdateCustomer
+namespace Host.Controllers.CreateVersion
 {
     [ApiController]
     [Route("api")]
-    public class UpdateCustomerController : ControllerBase
+    public class CreateVersionController : ControllerBase
     {
         private readonly DomainDbContext _db;
 
-        public UpdateCustomerController(DomainDbContext db)
+        public CreateVersionController(DomainDbContext db)
         {
             _db = db;
         }
 
-        [ProducesResponseType(typeof(CreateAddressResult), 204)]
-        [Route("customers/{customerId}")]
-        [HttpPut]
-        public async Task<IActionResult> Execute(int customerId, UpdateCustomerModel data)
+        [ProducesResponseType(typeof(CreateAddressResult), 200)]
+        [Route("customers/{customerId}/versions")]
+        [HttpPost]
+        public async Task<IActionResult> Execute(int customerId, CreateVersionModel data)
         {
             var customer = await _db.Set<Customer>().SingleAsync(p => p.Id == customerId);
-            customer.Update(name: data.Name);
+            customer.IncrementVersion(data.Message);
             await _db.SaveChangesAsync();
             return NoContent();
         }

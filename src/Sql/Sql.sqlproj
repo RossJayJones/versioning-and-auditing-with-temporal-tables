@@ -58,12 +58,16 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Customer.sql" />
     <Build Include="Tables\Address.sql" />
-    <Build Include="Tables\CustomerAudit.sql" />
-    <Build Include="Tables\CustomerVersion.sql" />
+    <Build Include="Tables\Audit.sql" />
+    <Build Include="Tables\Version.sql" />
+    <Build Include="Tables\AddressHistory.sql" />
+    <Build Include="Tables\CustomerHistory.sql" />
+    <Build Include="Views\v_Customer.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Sql.refactorlog" />

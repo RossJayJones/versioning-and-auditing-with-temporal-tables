@@ -22,26 +22,26 @@ namespace Host.Infrastructure.Query
         }
 
         private const string Sql = @"
+
+            DECLARE @Timestamp DATETIME;
+
+            SELECT 
+                @Timestamp = [Timestamp]
+            FROM 
+	            [Version]
+            WHERE
+	            [Id] = @VersionId;
+
             SELECT
                 [Id],
                 [Name],
-                JSON_QUERY((
-	                SELECT
-		                [Address].[Line],
-		                [Address].[Suburb],
-		                [Address].[City],
-		                [Address].[Province],
-		                [Address].[Code]
-                    FROM
-                        [Address]
-                    WHERE
-                        [Address].[CustomerId] = [Customer].[Id]
-	                FOR JSON PATH
-                )) AS [Addresses]
+                [Addresses]
             FROM
-                [Customer]
+                [v_Customer]
+            FOR
+                SYSTEM_TIME AS OF @Timestamp
             WHERE
-                [Id] = @CustomerId
+                [Id] = @CustomerId;
         ";
     }
 }

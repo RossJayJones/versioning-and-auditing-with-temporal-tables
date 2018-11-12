@@ -17,9 +17,8 @@ namespace Host
                var configuration = ConfigurationHelper.CreateConfiguration();
             services.AddDbContext<DomainDbContext>(opts => opts.UseSqlServer(configuration["sql"]));
             services.AddTransient<GetCustomersQuery>();
-            services.AddTransient<GetCustomerAuditsQuery>();
-            services.AddTransient<GetCustomerVersionsQuery>();
-            services.AddTransient<GetCustomerByAuditIdQuery>();
+            services.AddTransient<GetVersionsQuery>();
+            services.AddTransient<GetCustomerByIdQuery>();
             services.AddTransient<GetCustomerByVersionIdQuery>();
             services.Add(new ServiceDescriptor(typeof(IDbConnection), p => new SqlConnection(configuration["sql"]), ServiceLifetime.Scoped));
             services.AddMvc();

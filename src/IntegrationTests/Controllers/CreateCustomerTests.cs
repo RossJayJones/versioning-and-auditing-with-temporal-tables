@@ -16,7 +16,7 @@ namespace IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ItShouldCreateCustomer()
+        public async Task ItShouldCreateTheCustomer()
         {
             var data = new CreateCustomerModel { Name = "Sample Customer" };
 

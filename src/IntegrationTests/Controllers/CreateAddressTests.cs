@@ -17,7 +17,7 @@ namespace IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ItShouldCreateAddress()
+        public async Task ItShouldCreateTheAddress()
         {
             var customerId = await GetCustomerId();
             var data = new CreateAddressModel

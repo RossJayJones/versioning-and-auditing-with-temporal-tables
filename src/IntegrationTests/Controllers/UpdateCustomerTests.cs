@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Domain;
-using Host.Controllers.CreateAddress.Models;
 using Host.Controllers.UpdateCustomer.Models;
 using IntegrationTests.Fixtures;
 using Xunit;
@@ -21,7 +17,7 @@ namespace IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ItShouldCreateAddress()
+        public async Task ItShouldUpdateTheCustomer()
         {
             var customerId = await GetCustomerId();
             var data = new UpdateCustomerModel { Name = "New name" };

@@ -11,9 +11,9 @@ namespace Host.Controllers.GetCustomerVersions
     [Route("api")]
     public class GetCustomerVersionsController : ControllerBase
     {
-        private readonly GetCustomerVersionsQuery _query;
+        private readonly GetVersionsQuery _query;
 
-        public GetCustomerVersionsController(GetCustomerVersionsQuery query)
+        public GetCustomerVersionsController(GetVersionsQuery query)
         {
             _query = query;
         }
