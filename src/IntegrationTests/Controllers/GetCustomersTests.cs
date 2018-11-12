@@ -1,16 +1,15 @@
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Host.Controllers.CreateCustomer.Models;
 using IntegrationTests.Fixtures;
 using Xunit;
 
 namespace IntegrationTests.Controllers
 {
-    public class CreateCustomerTests : IClassFixture<TestServerFixture>
+    public class GetCustomersTests : IClassFixture<TestServerFixture>
     {
         private readonly TestServerFixture _fixture;
 
-        public CreateCustomerTests(TestServerFixture fixture)
+        public GetCustomersTests(TestServerFixture fixture)
         {
             _fixture = fixture;
         }
@@ -18,9 +17,10 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task ItShouldReturnOk()
         {
-            var data = new CreateCustomerModel { Name = "Sample Customer" };
+            var customerId = await _fixture.CreateCustomer();
+            await _fixture.CreateAddress(customerId);
 
-            var response = await _fixture.Post("api/customers", data);
+            var response = await _fixture.Get("api/customers");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }

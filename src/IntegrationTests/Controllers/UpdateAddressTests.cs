@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Domain;
 using Host.Controllers.CreateAddress.Models;
 using IntegrationTests.Fixtures;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace IntegrationTests.Controllers
@@ -18,10 +16,10 @@ namespace IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ItShouldUpdateTheAddress()
+        public async Task ItShouldReturnNoContent()
         {
-            var customerId = await CreateCustomer();
-            var addressId = await CreateAddress(customerId);
+            var customerId = await _fixture.CreateCustomer();
+            var addressId = await _fixture.CreateAddress(customerId);
             var data = new CreateAddressModel
             {
                 Line = "1st Rd",
@@ -34,33 +32,6 @@ namespace IntegrationTests.Controllers
             var response = await _fixture.Put($"api/customers/{customerId}/addresses/{addressId}", data);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        }
-
-        private async Task<int> CreateCustomer()
-        {
-            using (var db = _fixture.CreateDbContext())
-            {
-                var customer = new Customer("Sample customer");
-                await db.Set<Customer>().AddAsync(customer);
-                await db.SaveChangesAsync();
-                return customer.Id;
-            }
-        }
-
-        private async Task<int> CreateAddress(int customerId)
-        {
-            using (var db = _fixture.CreateDbContext())
-            {
-                var customer = await db.Set<Customer>().SingleAsync(c => c.Id == customerId);
-                var address = customer.AddAddress(
-                    line: "line",
-                    suburb: "suburb",
-                    city: "city",
-                    province: "province",
-                    code: "1234");
-                await db.SaveChangesAsync();
-                return address.Id;
-            }
         }
     }
 }

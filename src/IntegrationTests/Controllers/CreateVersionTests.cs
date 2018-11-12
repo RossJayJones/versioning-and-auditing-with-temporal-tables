@@ -1,16 +1,17 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Host.Controllers.UpdateCustomer.Models;
+using Host.Controllers.CreateVersion.Models;
+using Host.Controllers.GetCustomer.Results;
 using IntegrationTests.Fixtures;
 using Xunit;
 
 namespace IntegrationTests.Controllers
 {
-    public class UpdateCustomerTests : IClassFixture<TestServerFixture>
+    public class CreateVersionTests : IClassFixture<TestServerFixture>
     {
         private readonly TestServerFixture _fixture;
 
-        public UpdateCustomerTests(TestServerFixture fixture)
+        public CreateVersionTests(TestServerFixture fixture)
         {
             _fixture = fixture;
         }
@@ -19,9 +20,9 @@ namespace IntegrationTests.Controllers
         public async Task ItShouldReturnNoContent()
         {
             var customerId = await _fixture.CreateCustomer();
-            var data = new UpdateCustomerModel { Name = "New name" };
+            var data = new CreateVersionModel {Message = "A new version"};
 
-            var response = await _fixture.Put($"api/customers/{customerId}", data);
+            var response = await _fixture.Post($"api/customers/{customerId}/versions", data);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }

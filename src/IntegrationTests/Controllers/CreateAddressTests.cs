@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Domain;
 using Host.Controllers.CreateAddress.Models;
 using IntegrationTests.Fixtures;
 using Xunit;
@@ -17,9 +16,9 @@ namespace IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ItShouldCreateTheAddress()
+        public async Task ItShouldReturnOk()
         {
-            var customerId = await GetCustomerId();
+            var customerId = await _fixture.CreateCustomer();
             var data = new CreateAddressModel
             {
                 Line = "line",
@@ -32,17 +31,6 @@ namespace IntegrationTests.Controllers
             var response = await _fixture.Post($"api/customers/{customerId}/addresses", data);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
-
-        private async Task<int> GetCustomerId()
-        {
-            using (var db = _fixture.CreateDbContext())
-            {
-                var customer = new Customer("Sample customer");
-                await db.Set<Customer>().AddAsync(customer);
-                await db.SaveChangesAsync();
-                return customer.Id;
-            }
         }
     }
 }

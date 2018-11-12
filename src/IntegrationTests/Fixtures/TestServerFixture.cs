@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Domain;
 using Host;
 using Host.Infrastructure.Domain;
 using Microsoft.AspNetCore.Hosting;
@@ -69,6 +70,33 @@ namespace IntegrationTests.Fixtures
             var builder = new DbContextOptionsBuilder();
             builder.UseSqlServer(ConfigurationHelper.CreateConfiguration()["sql"]);
             return new DomainDbContext(builder.Options);
+        }
+
+        public async Task<int> CreateCustomer()
+        {
+            using (var db = CreateDbContext())
+            {
+                var customer = new Customer("Sample customer");
+                await db.Set<Customer>().AddAsync(customer);
+                await db.SaveChangesAsync();
+                return customer.Id;
+            }
+        }
+
+        public async Task<int> CreateAddress(int customerId)
+        {
+            using (var db = CreateDbContext())
+            {
+                var customer = await db.Set<Customer>().SingleAsync(c => c.Id == customerId);
+                var address = customer.AddAddress(
+                    line: "line",
+                    suburb: "suburb",
+                    city: "city",
+                    province: "province",
+                    code: "1234");
+                await db.SaveChangesAsync();
+                return address.Id;
+            }
         }
 
         public void Dispose()
